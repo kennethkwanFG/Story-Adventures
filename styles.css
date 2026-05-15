@@ -78,6 +78,13 @@ body {
     opacity: 1;
 }
 
+@media (max-width: 768px) {
+    .character {
+        height: 45%;
+        bottom: 35%;
+    }
+}
+
 /* UI Layer */
 #ui-layer {
     position: absolute;
