@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTS Story Adventures</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Background layer -->
+        <div id="background"></div>
+
+        <!-- Character sprites layer -->
+        <div id="characters">
+            <div id="char-left" class="character"></div>
+            <div id="char-center" class="character"></div>
+            <div id="char-right" class="character"></div>
+        </div>
+
+        <!-- UI Layer -->
+        <div id="ui-layer">
+            <!-- Top menu -->
+            <div id="top-menu">
+                <button id="menu-btn">Menu</button>
+                <button id="save-btn">Save</button>
+                <button id="load-btn">Load</button>
+                <div id="romance-display"></div>
+            </div>
+
+            <!-- Text box -->
+            <div id="text-box">
+                <div id="speaker-name"></div>
+                <div id="dialogue-text"></div>
+                <div id="choices"></div>
+            </div>
+
+            <!-- Continue indicator -->
+            <div id="continue-indicator">▼ Click to continue</div>
+        </div>
+
+        <!-- Menu overlay -->
+        <div id="menu-overlay" class="hidden">
+            <div id="menu-content">
+                <h2>Menu</h2>
+                <button id="resume-btn">Resume</button>
+                <button id="restart-btn">Restart Story</button>
+                <button id="close-menu-btn">Close</button>
+            </div>
+        </div>
+
+        <!-- Character customization screen -->
+        <div id="customization-screen">
+            <div id="customization-content">
+                <h1>Welcome to BTS Story Adventures</h1>
+                <p>Before we begin, what should we call you?</p>
+                <input type="text" id="player-name-input" placeholder="Enter your name" value="Daisy">
+                <button id="start-game-btn" onclick="window.startGameDirect()">Start Adventure</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

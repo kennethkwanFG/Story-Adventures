@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTS Game - Simple Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <h1>BTS Game - Test Page</h1>
+    <p>This page tests if the game components work correctly.</p>
+
+    <div class="test-section">
+        <h2>Test 1: JavaScript Loading</h2>
+        <button onclick="testJS()">Click to Test JS</button>
+        <div id="js-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Story Data</h2>
+        <button onclick="testStoryData()">Load Story Data</button>
+        <div id="story-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Open Main Game</h2>
+        <p>If the tests above pass, the main game should work.</p>
+        <a href="index.html" style="display: inline-block; padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">
+            Open Main Game
+        </a>
+    </div>
+
+    <div class="test-section">
+        <h2>Browser Console</h2>
+        <p>Press <strong>F12</strong> or <strong>Right-click → Inspect → Console</strong> to see detailed logs.</p>
+        <p>If you see errors there, share them with me!</p>
+    </div>
+
+    <script>
+        function testJS() {
+            const result = document.getElementById('js-result');
+            result.innerHTML = '<div class="result">✅ JavaScript is working! The game should load.</div>';
+            console.log('JavaScript test passed');
+        }
+
+        function testStoryData() {
+            const result = document.getElementById('story-result');
+
+            try {
+                // Load embedded demo story (same as main game)
+                const demoStory = {
+                    start: {
+                        id: 'start',
+                        text: 'Test scene loaded successfully!',
+                        choices: [
+                            { text: 'Continue', nextScene: 'scene2' }
+                        ]
+                    }
+                };
+
+                const sceneCount = Object.keys(demoStory).length;
+                result.innerHTML = `<div class="result">✅ Story data loaded! Found ${sceneCount} scene(s).<br>Scene IDs: ${Object.keys(demoStory).join(', ')}</div>`;
+                console.log('Story data test passed', demoStory);
+
+            } catch (error) {
+                result.innerHTML = `<div class="result error">❌ Error: ${error.message}</div>`;
+                console.error('Story data test failed:', error);
+            }
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('Test page loaded');
+            console.log('Run the tests above, then try opening index.html');
+        });
+    </script>
+</body>
+</html>

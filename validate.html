@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTS Game Validator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #ddd;
+        }
+
+        .test-section.running {
+            border-left-color: #2196F3;
+            background: #E3F2FD;
+        }
+
+        .test-section.pass {
+            border-left-color: #4CAF50;
+            background: #E8F5E9;
+        }
+
+        .test-section.fail {
+            border-left-color: #f44336;
+            background: #FFEBEE;
+        }
+
+        .test-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .icon {
+            font-size: 24px;
+        }
+
+        .summary {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .summary.pass {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .summary.fail {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .error-detail {
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #f57c00;
+        }
+
+        .success {
+            color: #2e7d32;
+        }
+
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #E3F2FD;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 BTS Game Validator</h1>
+        <p class="subtitle">Run this before testing your game to catch errors early</p>
+
+        <button onclick="runAllTests()">Run Validation</button>
+
+        <div id="results"></div>
+
+        <div class="info">
+            <strong>💡 When to use this:</strong><br>
+            • After editing game.js or index.html<br>
+            • After adding new story scenes<br>
+            • Before testing on mobile<br>
+            • If the game isn't loading
+        </div>
+    </div>
+
+    <script>
+        const tests = [];
+        let allPassed = true;
+
+        function runAllTests() {
+            tests.length = 0;
+            allPassed = true;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            // Test 1: JavaScript Syntax
+            testJavaScriptSyntax();
+
+            // Test 2: HTML Structure
+            testHTMLStructure();
+
+            // Test 3: Required Files
+            testRequiredFiles();
+
+            // Test 4: Story Data
+            testStoryData();
+
+            // Show summary
+            setTimeout(showSummary, 500);
+        }
+
+        function addTest(title, status, message) {
+            const test = { title, status, message };
+            tests.push(test);
+
+            const resultsDiv = document.getElementById('results');
+            const section = document.createElement('div');
+            section.className = `test-section ${status}`;
+
+            const icon = status === 'pass' ? '✅' : status === 'fail' ? '❌' : '⏳';
+            const statusClass = status === 'pass' ? 'success' : status === 'fail' ? 'error-detail' : 'warning';
+
+            section.innerHTML = `
+                <div class="test-title">
+                    <span class="icon">${icon}</span>
+                    ${title}
+                </div>
+                <div class="test-result ${statusClass}">
+                    ${message}
+                </div>
+            `;
+
+            resultsDiv.appendChild(section);
+
+            if (status === 'fail') {
+                allPassed = false;
+            }
+        }
+
+        function testJavaScriptSyntax() {
+            try {
+                // Try to load and execute game.js
+                const script = document.createElement('script');
+                script.src = 'game.js?t=' + Date.now();
+                script.onerror = () => {
+                    addTest('JavaScript Syntax', 'fail', 'Failed to load game.js. Check if file exists.');
+                };
+                script.onload = () => {
+                    // Check for syntax errors by looking for global objects
+                    if (typeof gameState === 'undefined') {
+                        addTest('JavaScript Syntax', 'fail', 'game.js loaded but gameState is not defined. Check for syntax errors.');
+                    } else {
+                        addTest('JavaScript Syntax', 'pass', 'No syntax errors detected. gameState object found.');
+                    }
+                };
+                document.head.appendChild(script);
+            } catch (error) {
+                addTest('JavaScript Syntax', 'fail', `Syntax error: ${error.message}`);
+            }
+        }
+
+        function testHTMLStructure() {
+            const requiredElements = [
+                'game-container',
+                'background',
+                'text-box',
+                'speaker-name',
+                'dialogue-text',
+                'choices',
+                'start-game-btn',
+                'customization-screen'
+            ];
+
+            fetch('index.html')
+                .then(response => response.text())
+                .then(html => {
+                    const missingElements = [];
+
+                    requiredElements.forEach(id => {
+                        if (!html.includes(`id="${id}"`)) {
+                            missingElements.push(id);
+                        }
+                    });
+
+                    if (missingElements.length > 0) {
+                        addTest('HTML Structure', 'fail',
+                            `Missing required elements: ${missingElements.join(', ')}`);
+                    } else {
+                        addTest('HTML Structure', 'pass',
+                            `All ${requiredElements.length} required elements found.`);
+                    }
+                })
+                .catch(error => {
+                    addTest('HTML Structure', 'fail', `Failed to load index.html: ${error.message}`);
+                });
+        }
+
+        function testRequiredFiles() {
+            const files = [
+                { path: 'index.html', name: 'Main HTML' },
+                { path: 'game.js', name: 'Game JavaScript' },
+                { path: 'styles.css', name: 'Styles' },
+                { path: 'story/main-story.md', name: 'Story File' }
+            ];
+
+            let checkedCount = 0;
+            let missingFiles = [];
+
+            files.forEach(file => {
+                fetch(file.path)
+                    .then(response => {
+                        if (!response.ok) {
+                            missingFiles.push(file.name);
+                        }
+                    })
+                    .catch(() => {
+                        missingFiles.push(file.name);
+                    })
+                    .finally(() => {
+                        checkedCount++;
+                        if (checkedCount === files.length) {
+                            if (missingFiles.length > 0) {
+                                addTest('Required Files', 'fail',
+                                    `Missing files: ${missingFiles.join(', ')}`);
+                            } else {
+                                addTest('Required Files', 'pass',
+                                    `All ${files.length} required files found.`);
+                            }
+                        }
+                    });
+            });
+        }
+
+        function testStoryData() {
+            // Wait a bit for game.js to load
+            setTimeout(() => {
+                try {
+                    if (typeof gameState !== 'undefined' && gameState.storyData) {
+                        const sceneCount = Object.keys(gameState.storyData).length;
+                        const sceneIds = Object.keys(gameState.storyData);
+
+                        if (sceneCount === 0) {
+                            addTest('Story Data', 'fail', 'No scenes found in story data.');
+                        } else {
+                            // Check if 'start' scene exists
+                            if (!gameState.storyData.start) {
+                                addTest('Story Data', 'fail',
+                                    `${sceneCount} scenes found but missing 'start' scene. Available: ${sceneIds.join(', ')}`);
+                            } else {
+                                addTest('Story Data', 'pass',
+                                    `${sceneCount} scenes loaded. Start scene: ✓`);
+                            }
+                        }
+                    } else {
+                        addTest('Story Data', 'fail',
+                            'gameState.storyData not found. Check game.js for errors.');
+                    }
+                } catch (error) {
+                    addTest('Story Data', 'fail', `Error checking story data: ${error.message}`);
+                }
+            }, 1000);
+        }
+
+        function showSummary() {
+            const resultsDiv = document.getElementById('results');
+            const summary = document.createElement('div');
+            summary.className = `summary ${allPassed ? 'pass' : 'fail'}`;
+
+            if (allPassed) {
+                summary.innerHTML = `
+                    ✅ All Tests Passed!<br>
+                    <div style="font-size: 16px; margin-top: 10px; font-weight: normal;">
+                        Your game is ready to play. Open index.html to start.
+                    </div>
+                `;
+            } else {
+                const failCount = tests.filter(t => t.status === 'fail').length;
+                summary.innerHTML = `
+                    ❌ ${failCount} Test${failCount > 1 ? 's' : ''} Failed<br>
+                    <div style="font-size: 16px; margin-top: 10px; font-weight: normal;">
+                        Fix the errors above before testing your game.
+                    </div>
+                `;
+            }
+
+            resultsDiv.appendChild(summary);
+        }
+
+        // Auto-run on page load (optional)
+        // window.addEventListener('DOMContentLoaded', runAllTests);
+    </script>
+</body>
+</html>
