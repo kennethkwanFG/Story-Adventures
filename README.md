@@ -1,6 +1,6 @@
-# BTS Story Adventures - Visual Novel Game
+# Story Adventures - Visual Novel Game
 
-A choice-based interactive story game featuring BTS! Play as Daisy who gets a surprise visit from BTS.
+A choice-based interactive story game engine. Create branching narratives with character interactions and romance tracking.
 
 ## 🎮 How to Play
 
@@ -8,7 +8,7 @@ A choice-based interactive story game featuring BTS! Play as Daisy who gets a su
 2. **Mobile**: Works on iPhone/iOS - just open the file in Safari
 3. **Enter your name**: Choose what the characters will call you
 4. **Make choices**: Click/tap choices to progress the story
-5. **Build romance**: Certain choices increase romance points with BTS members
+5. **Build romance**: Certain choices increase romance points with characters
 6. **Save/Load**: Use the menu buttons to save your progress
 
 ## ✅ Validate Before Testing
@@ -55,27 +55,27 @@ If you prefer text editing, open `story/main-story.md` and add scenes using this
 ---scene---
 id: scene_name
 background: living_room.jpg
-characters: rm, jimin
-speaker: RM
+characters: alex, sam
+speaker: Alex
 
 Your dialogue text goes here. You can write multiple paragraphs.
 
 Use {{PLAYER_NAME}} to insert the player's name.
 
 → "Choice 1 text" (next_scene_id)
-→ "Choice 2 text with romance" (another_scene, +romance_jungkook)
+→ "Choice 2 text with romance" (another_scene, +romance_sam)
 ```
 
 ### Scene Format Explained
 
 - **id**: Unique name for this scene (use lowercase with underscores)
 - **background**: Image filename from `assets/backgrounds/` (optional)
-- **characters**: Which BTS members appear (comma-separated, optional)
-  - Available: `jin`, `suga`, `jhope`, `rm`, `jimin`, `v`, `jungkook`
+- **characters**: Which characters appear (comma-separated, optional)
+  - Use character IDs matching your sprite filenames (e.g., `alex`, `sam`, `jordan`)
 - **speaker**: Who is talking (appears in pink above dialogue)
 - **Text**: The story/dialogue content
-- **Choices**: Format: `→ "Text" (next_scene_id, +romance_member)`
-  - Romance options: `+romance_jin`, `+romance_suga`, etc.
+- **Choices**: Format: `→ "Text" (next_scene_id, +romance_character)`
+  - Romance options: `+romance_alex`, `+romance_sam`, etc.
 
 ### Example Scene
 
@@ -83,15 +83,15 @@ Use {{PLAYER_NAME}} to insert the player's name.
 ---scene---
 id: kitchen_talk
 background: kitchen.jpg
-characters: jin, jungkook
-speaker: Jin
+characters: alex, jordan
+speaker: Alex
 
-Jin opens your fridge and looks impressed. "Wow, you have good ingredients!"
+Alex opens your fridge and looks impressed. "Wow, you have good ingredients!"
 
-Jungkook peeks over his shoulder. "Can Jin-hyung cook something for us, {{PLAYER_NAME}}?"
+Jordan peeks over their shoulder. "Think Alex could cook something for us, {{PLAYER_NAME}}?"
 
-→ "I'd love that! What will you make?" (cooking_scene, +romance_jin)
-→ "Let's order food instead - I want to hear about your tour!" (living_room_talk)
+→ "I'd love that! What will you make?" (cooking_scene, +romance_alex)
+→ "Let's order food instead - let's just talk!" (living_room_talk)
 ```
 
 ## 🎨 Adding Art
@@ -103,7 +103,7 @@ Jungkook peeks over his shoulder. "Can Jin-hyung cook something for us, {{PLAYER
 
 ### Character Sprites
 1. Add character images to `assets/characters/`
-2. Name them by member: `rm.png`, `jin.png`, `suga.png`, etc.
+2. Name them by character ID: `alex.png`, `sam.png`, `jordan.png`, etc.
 3. Recommended: PNG with transparent background, vertical portraits
 4. Size: ~600-800px height works well
 
@@ -113,8 +113,8 @@ Jungkook peeks over his shoulder. "Can Jin-hyung cook something for us, {{PLAYER
 
 - Romance points automatically track as players make choices
 - Top 3 romances display in the top-right corner
-- Use `+romance_membername` in choice format to increase points
-- Example: `→ "Smile at Jimin" (next_scene, +romance_jimin)`
+- Use `+romance_charactername` in choice format to increase points
+- Example: `→ "Smile at Sam" (next_scene, +romance_sam)`
 
 ## 💾 Save System
 
@@ -161,7 +161,7 @@ Story-Adventures/
 1. **Test as you go**: Add 2-3 scenes, then play them
 2. **Keep choices meaningful**: Each choice should lead somewhere different
 3. **Use {{PLAYER_NAME}}**: Makes the story feel personal
-4. **Balance romance**: Don't favor one member too heavily (unless that's your story!)
+4. **Balance romance**: Don't favor one character too heavily (unless that's your story!)
 5. **Scene IDs**: Use descriptive names like `kitchen_talk`, not `scene_7`
 
 ## 🚀 Quick Start Workflow
@@ -177,11 +177,11 @@ Story-Adventures/
 7. **Repeat**: Edit more scenes, add images, refine
 
 **Adding images:**
-1. Save character images as: `jin.png`, `suga.png`, `rm.png`, etc.
+1. Save character images as: `charactername.png` (matching your character IDs)
 2. Put them in `assets/characters/`
 3. Put backgrounds in `assets/backgrounds/`
-4. Editor shows which images exist (✅) vs. missing (⚠️)
+4. Type the filename in the scene editor when creating scenes
 
 ---
 
-**Have fun creating your BTS story adventure!** 💜
+**Have fun creating your interactive story adventure!** 🎮

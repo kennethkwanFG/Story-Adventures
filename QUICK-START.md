@@ -1,4 +1,4 @@
-# Quick Start Guide - BTS Story Adventures
+# Quick Start Guide - Story Adventures
 
 ## 🎯 Your Workflow (3 Steps!)
 
@@ -60,34 +60,34 @@ Then **repeat**: Edit → Validate → Test
 
 **Scene ID** (Required)
 - Unique name for this scene
-- Use lowercase, underscores: `kitchen_morning`, `meet_jin`
+- Use lowercase, underscores: `kitchen_morning`, `meet_alex`
 - Cannot change later (delete & recreate instead)
 
 **Speaker**
 - Who is talking in this scene
-- Options: BTS members, You (player), or blank (narrator)
+- Options: Character names, You (player), or blank (narrator)
 
 **Scene Text** (Required)
 - The story/dialogue content
 - Use `{{PLAYER_NAME}}` to insert the player's name
-- Example: "Welcome, {{PLAYER_NAME}}! I'm RM."
+- Example: "Welcome, {{PLAYER_NAME}}! I'm Alex."
 
 **Characters on Screen**
-- Click BTS members to show them in this scene
+- Click characters to show them in this scene
 - They appear as sprites over the background
 - Can select 1-3 at a time (looks best)
 
 **Background Image**
-- Optional image for the scene location
-- Shows dropdown of available images
-- ⚠️ Missing = scene uses gradient background (still works!)
+- Type the filename for the scene location
+- Example: `kitchen.jpg`, `bedroom.png`
+- ⚠️ Blank = scene uses gradient background (still works!)
 
 **Choices**
 - Add multiple choices for branching paths
 - Each choice needs:
-  - **Text**: What the player sees ("Say hello", "Ask about music")
+  - **Text**: What the player sees ("Say hello", "Ask a question")
   - **Next Scene**: Which scene it goes to
-  - **💜 Romance** (optional): Give points to a BTS member
+  - **💜 Romance** (optional): Give points to a character
 
 ### Tips
 
@@ -103,7 +103,7 @@ Then **repeat**: Edit → Validate → Test
 ### Where Images Go
 
 **Character Sprites** → `assets/characters/`
-- Named: `jin.png`, `suga.png`, `jhope.png`, `rm.png`, `jimin.png`, `v.png`, `jungkook.png`
+- Named: `charactername.png` (e.g., `alex.png`, `sam.png`, `jordan.png`)
 - PNG with transparent background works best
 - Portrait orientation (tall)
 
@@ -115,13 +115,13 @@ Then **repeat**: Edit → Validate → Test
 ### How to Add Images
 
 1. Save/download your images
-2. Rename character images correctly (see above)
+2. Name character images to match your character IDs
 3. Copy files to the folders
-4. Refresh `editor.html` - they'll appear in dropdowns!
+4. Type the filename in the scene editor when creating scenes
 
-**The editor shows:**
-- ✅ Green = image exists, will appear in game
-- ⚠️ Yellow = image missing, scene uses placeholder
+**Supported formats:**
+- ✅ JPG, PNG, GIF, WebP
+- ❌ HEIC does NOT work (convert to JPG/PNG first)
 
 ---
 
@@ -132,19 +132,19 @@ Let's build a simple story:
 ### Scene 1: `start`
 - Text: "You hear a knock at your door..."
 - Choices:
-  - "Open the door" → goes to `meet_rm`
+  - "Open the door" → goes to `meet_visitor`
   - "Ignore it" → goes to `miss_them`
 
-### Scene 2: `meet_rm`
-- Speaker: RM
-- Characters: `rm`
-- Text: "Hi! I'm RM from BTS. Can we come in?"
+### Scene 2: `meet_visitor`
+- Speaker: Alex
+- Characters: `alex`
+- Text: "Hi! I'm Alex. Can I come in?"
 - Choices:
-  - "Of course!" → `invite_in` (💜 +romance_rm)
+  - "Of course!" → `invite_in` (💜 +romance_alex)
   - "Um, who?" → `confused`
 
 ### Scene 3: `invite_in`
-- Characters: `rm`, `jin`, `jimin`
+- Characters: `alex`, `sam`, `jordan`
 - Text: "They walk in, looking around..."
 - Choices continue...
 
@@ -168,10 +168,10 @@ A: Use "Export Story" tab to download backups often!
 A: No! Scenes work without images. Add art when ready.
 
 **Q: Can I change the player's default name?**
-A: Yes! Edit `index.html`, find `value="Daisy"`, change it.
+A: Yes! Edit `index.html`, find the `value=""` attribute in the name input field and change it.
 
-**Q: How do I add more BTS member options?**
-A: They're all there: Jin, Suga, J-Hope, RM, Jimin, V, Jungkook
+**Q: How do I add more characters?**
+A: Add their sprite images to `assets/characters/` and reference them by filename in your scenes.
 
 ---
 
@@ -217,4 +217,4 @@ A: They're all there: Jin, Suga, J-Hope, RM, Jimin, V, Jungkook
 
 **Need help?** Check the full README.md or run `validate.html` to catch common errors.
 
-**Ready to create?** Open `editor.html` and start building your BTS adventure! 🎮💜
+**Ready to create?** Open `editor.html` and start building your interactive story! 🎮
