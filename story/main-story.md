@@ -1,6 +1,6 @@
 ---scene---
 id: start
-background: IMG_3846-EDIT.jpg
+background: 
 characters: 
 speaker: 
 
